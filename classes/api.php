@@ -39,26 +39,38 @@ abstract class Api
 	{
 		$hash = static::cache_hash($path, $params);
 
-		if ($cache === null) {
-			$cache_value = false;
-		} elseif ($cache === true) {
+		if ($cache === null)
+		{
+			$cache_value = \Config::get('cache_lifetime');
+		}
+		elseif ($cache === true)
+		{
 			$cache_value = null;
-		} else {
+		}
+		else
+		{
 			$cache_value = $cache;
 		}
 
-		try {
-			if ($cache === false) {
+		try
+		{
+			if ($cache === false)
+			{
 				throw new \CacheNotFoundException;
 			}
 
 			$data = \Cache::get($hash);
-		} catch (\CacheNotFoundException $e) {
-			try {
+		}
+		catch (\CacheNotFoundException $e)
+		{
+			try
+			{
 				$data = $this->request($path, $params, 'GET');
 
 				\Cache::set($hash, $data, $cache_value);
-			} catch (\Exception $e) {
+			}
+			catch (\Exception $e)
+			{
 				$data = array();
 
 				logger(\Fuel::L_ERROR, $e->getMessage(), __METHOD__);
