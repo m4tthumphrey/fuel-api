@@ -16,13 +16,22 @@ class Api_Twitter extends Api_OAuth
 		return $ret;
 	}
 
-	public function callback($data)
+	public function callback($request)
 	{
-		$data = json_decode($data);
-
-		if (isset($data->error))
+		try
 		{
-			throw new \ApiException($data->error);
+			$data = $request->execute();
+			$data = json_decode($data);
+
+			if (isset($data->error))
+			{
+				throw new ApiException($data->error);
+			}
+		}
+		catch (\Exception $e)
+		{
+			// TODO: Parse $e->getMessage() correctly
+			throw new ApiException('An error occurred processing this request');
 		}
 
 		return $data;

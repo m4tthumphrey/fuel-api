@@ -4,14 +4,30 @@ namespace Api;
 
 abstract class Api_OAuth extends Api
 {
-	public function post($path, $params = array())
+	protected $consumer = null;
+	protected $token = null;
+	protected $signature_type = 'HMAC-SHA1';
+
+	public function __construct($options = array())
 	{
-		return $this->request($path, $params, 'POST');
+		$this->consumer = \OAuth\Consumer::forge(array(
+			'key' => $options['consumer_key'],
+			'secret' => $options['consumer_secret']
+		));
+
+		$this->token = \OAuth\Token::forge('access', array(
+			'access_token' => $options['access_token'],
+			'secret' => $options['access_secret']
+		));
+
+		$this->signature = \OAuth\Signature::forge($this->signature_type);
+
+		return $this;
 	}
 
 	public function request($path, $params = array(), $type = 'GET')
 	{
-		$params = array_merge(array(
+		$params = \Arr::merge(array(
 			'oauth_consumer_key' => $this->consumer->key,
 			'oauth_token' => $this->token->access_token,
 		), $params);
@@ -21,8 +37,6 @@ abstract class Api_OAuth extends Api
 		$request = \OAuth\Request::forge('resource', $type, $url, $params);
 		$request->sign($this->signature, $this->consumer, $this->token);
 
-		return $this->callback($request->execute());
+		return $this->callback($request);
 	}
-
-	abstract public function callback($data);
 }

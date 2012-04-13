@@ -13,27 +13,9 @@ abstract class Api
 		return new $class($options);
 	}
 
-	protected $consumer = null;
-	protected $token = null;
-
 	protected $api_url = null;
 
-	public function __construct($options = array())
-	{
-		$this->consumer = \OAuth\Consumer::forge(array(
-			'key' => $options['consumer_key'],
-			'secret' => $options['consumer_secret']
-		));
-
-		$this->token = \OAuth\Token::forge('access', array(
-			'access_token' => $options['access_token'],
-			'secret' => $options['access_secret']
-		));
-
-		$this->signature = \OAuth\Signature::forge('HMAC-SHA1');
-
-		return $this;
-	}
+	abstract public function __construct($options = array());
 
 	public function get($path, $params = array(), $cache = null)
 	{
@@ -63,22 +45,34 @@ abstract class Api
 		}
 		catch (\CacheNotFoundException $e)
 		{
-			try
-			{
-				$data = $this->request($path, $params, 'GET');
+			$data = $this->request($path, $params, 'GET');
 
-				\Cache::set($hash, $data, $cache_value);
-			}
-			catch (\Exception $e)
-			{
-				$data = array();
-
-				logger(\Fuel::L_ERROR, $e->getMessage(), __METHOD__);
-			}
+			\Cache::set($hash, $data, $cache_value);
 		}
 
 		return $data;
 	}
+
+	public function post($path, $params = array())
+	{
+		return $this->request($path, $params, 'POST');
+	}
+
+	public function request($path, $params = array(), $type = 'GET')
+	{
+		$url = sprintf($this->api_url, $path);
+
+		$request = \Request::forge($url, array('driver' => 'curl'), $type)#
+			->set_params($params)
+			->set_options(array(
+				'SSL_VERIFYPEER' => false,
+				'SSL_VERIFYHOST' => false
+			));
+
+		return $this->callback($request);
+	}
+
+	abstract public function callback($request);
 
 	public static function cache_hash($path, $params = array())
 	{
