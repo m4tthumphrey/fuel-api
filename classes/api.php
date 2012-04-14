@@ -62,7 +62,7 @@ abstract class Api
 	{
 		$url = sprintf($this->api_url, $path);
 
-		$request = \Request::forge($url, array('driver' => 'curl'), $type)#
+		$request = \Request::forge($url, array('driver' => 'curl'), $type)
 			->set_params($params)
 			->set_options(array(
 				'SSL_VERIFYPEER' => false,
