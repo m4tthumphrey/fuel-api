@@ -20,6 +20,7 @@ class Api_Foursquare extends Api_OAuth2
 		}
 		catch (\RequestStatusException $e)
 		{
+			$message = 'An error occurred connecting to the Foursquare servers';
 			$data = json_decode($e->getMessage());
 
 			if (isset($data->meta->errorDetail))
