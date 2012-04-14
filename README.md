@@ -1,17 +1,19 @@
 fuel-api
 ========
 
+This cell is designed to be used once you have already authorised and have your token. It uses the [OAuth Cell Package](https://github.com/fuel-packages/fuel-oauth) for making requests for OAuth powered APIs. You can also use it for OAuth2 based APIs. Integrated pagination is planned.
+
 Usage
 -----
-
-This cell is designed to be used once you have already authorised. It uses the [OAuth Cell Package](https://github.com/fuel-packages/fuel-oauth) for making requests for OAuth powered APIs. I plan on evolving it for any API I need to use in my current project. You can also use it for OAuth2 based APIs.
 
 Remember to load copy the config files into your app/config directory. I would recommend setting them to auto load.
 
 Twitter (OAuth)
 ---------------
 
-	public function get_tweets()
+	<?php
+
+	function get_tweets()
 	{
 		$options = Config::get('twitter', true);
 		$twitter = Api::forge('twitter', $options);
@@ -46,16 +48,19 @@ Twitter (OAuth)
 		}
 		catch (Api\ApiException $e)
 		{
+			$tweet = null;
 			logger(\Fuel::L_ERROR, $e->getMessage(), __METHOD__);
 		}
 
-		return $tweets;
+		return $tweet;
 	}
 
 Foursquare (OAuth2)
 -------------------
 
-	public function get_trending_venues($ll = '40.7,-74')
+	<?php
+
+	function get_trending_venues($ll = '40.7,-74')
 	{
 		$options = Config::get('foursquare', true);
 		$fs = Api::forge('foursquare', $options);
@@ -74,4 +79,27 @@ Foursquare (OAuth2)
 		}
 
 		return $venues;
+	}
+
+Instagram (OAuth2)
+-------------------
+
+	<?php
+
+	function get_feed()
+	{
+		$options = Config::get('instagram', true);
+		$instagram = Api::forge('instagram', $options);
+
+		try
+		{
+			$feed = $instagram->get('users/self/feed');
+		}
+		catch (Api\ApiException $e)
+		{
+			$feed = array();
+			logger(\Fuel::L_ERROR, $e->getMessage(), __METHOD__);
+		}
+
+		return $feed;
 	}
