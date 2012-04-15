@@ -10,5 +10,6 @@ Autoloader::add_classes(array(
 	'Api\\Api_OAuth2'					=> __DIR__.'/classes/oauth2.php',
 	'Api\\Api_Foursquare'			=> __DIR__.'/classes/oauth2/foursquare.php',
 	'Api\\Api_Instagram'			=> __DIR__.'/classes/oauth2/instagram.php',
+	'Api\\Api_Facebook'			=> __DIR__.'/classes/oauth2/facebook.php',
 
 ));

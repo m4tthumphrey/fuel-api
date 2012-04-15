@@ -103,3 +103,30 @@ Instagram (OAuth2)
 
 		return $feed;
 	}
+
+Facebook (OAuth2)
+-------------------
+
+We use the [Graph API](http://developers.facebook.com/docs/reference/api/) when making requests to Facebook. Remember this is for use once authenticated and you have a valid token. Make sure you authenicate with the [necessary permissions](http://developers.facebook.com/docs/authentication/permissions/) to be able to complete the requests.
+
+	<?php
+
+	function update_status()
+	{
+		$options = Config::get('facebook', true);
+		$fb = Api::forge('facebook', $options);
+
+		try
+		{
+			$status_id = $fb->post('me/feed', array(
+				'message' => 'This is a test update from fuel-api'
+			));
+		}
+		catch (Api\ApiException $e)
+		{
+			$status_id = null;
+			logger(\Fuel::L_ERROR, $e->getMessage(), __METHOD__);
+		}
+
+		return $status_id;
+	}
