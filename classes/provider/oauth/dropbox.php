@@ -15,20 +15,26 @@ class Api_Dropbox extends Api_OAuth
 		{
 			$data = $request->execute();
 			$data = json_decode($data);
-
-			if (isset($data->error))
-			{
-				throw new ApiException($data->error);
-			}
 		}
 		catch (ApiException $e)
 		{
 			throw $e;
 		}
+		catch (\RequestStatusException $e)
+		{
+			$message = 'An error occurred connecting to the Dropbox servers';
+			$data = json_decode($e->getMessage());
+
+			if (isset($data->error))
+			{
+				$message = current($data->error);
+			}
+
+			throw new ApiException($message);
+		}
 		catch (\Exception $e)
 		{
-			// TODO: Parse $e->getMessage() correctly
-			throw new ApiException('An error occurred processing this request');
+			throw new ApiException($e->getMessage());
 		}
 
 		return $data;

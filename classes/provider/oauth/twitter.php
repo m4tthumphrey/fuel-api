@@ -35,10 +35,21 @@ class Api_Twitter extends Api_OAuth
 		{
 			throw $e;
 		}
+		catch (\RequestStatusException $e)
+		{
+			$message = 'An error occurred connecting to the Twitter servers';
+			$data = json_decode($e->getMessage());
+
+			if (isset($data->error))
+			{
+				$message = $data->error;
+			}
+
+			throw new ApiException($message);
+		}
 		catch (\Exception $e)
 		{
-			// TODO: Parse $e->getMessage() correctly
-			throw new ApiException('An error occurred processing this request');
+			throw new ApiException($e->getMessage());
 		}
 
 		return $data;

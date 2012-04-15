@@ -24,7 +24,7 @@ class Api_Vimeo extends Api_OAuth
 		try
 		{
 			$data = $request->execute();
-			$data = json_decode($data);
+			$data = json_decode(json_encode($data))->body;
 
 			if (isset($data->err))
 			{
@@ -37,7 +37,6 @@ class Api_Vimeo extends Api_OAuth
 		}
 		catch (\Exception $e)
 		{
-			// TODO: Parse $e->getMessage() correctly
 			throw new ApiException($e->getMessage());
 		}
 
