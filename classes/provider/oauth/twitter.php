@@ -25,11 +25,6 @@ class Api_Twitter extends Api_OAuth
 		{
 			$data = $request->execute();
 			$data = json_decode($data);
-
-			if (isset($data->error))
-			{
-				throw new ApiException($data->error);
-			}
 		}
 		catch (ApiException $e)
 		{

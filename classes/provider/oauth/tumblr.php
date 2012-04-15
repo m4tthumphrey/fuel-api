@@ -24,11 +24,6 @@ class Api_Tumblr extends Api_OAuth
 		{
 			$data = $request->execute();
 			$data = json_decode(json_encode($data))->body;
-
-			if ($data->meta->status !== 200)
-			{
-				throw new ApiException($data->meta->msg);
-			}
 		}
 		catch (ApiException $e)
 		{
@@ -38,7 +33,7 @@ class Api_Tumblr extends Api_OAuth
 		{
 			$message = 'An error occurred connecting to the Tumblr servers';
 			$code = 0;
-			
+
 			$data = json_decode($e->getMessage());
 
 			if (isset($data->meta->msg))
