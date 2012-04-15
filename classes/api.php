@@ -66,7 +66,8 @@ abstract class Api
 			->set_params($params)
 			->set_options(array(
 				'SSL_VERIFYPEER' => false,
-				'SSL_VERIFYHOST' => false
+				'SSL_VERIFYHOST' => false,
+				'CUSTOMREQUEST' => $type
 			));
 
 		return $this->callback($request);
