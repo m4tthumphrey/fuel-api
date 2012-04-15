@@ -21,6 +21,10 @@ class Api_Dropbox extends Api_OAuth
 				throw new ApiException($data->error);
 			}
 		}
+		catch (ApiException $e)
+		{
+			throw $e;
+		}
 		catch (\Exception $e)
 		{
 			// TODO: Parse $e->getMessage() correctly

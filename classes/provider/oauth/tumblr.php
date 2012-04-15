@@ -30,6 +30,10 @@ class Api_Tumblr extends Api_OAuth
 				throw new ApiException($data->meta->msg);
 			}
 		}
+		catch (ApiException $e)
+		{
+			throw $e;
+		}
 		catch (\Exception $e)
 		{
 			// TODO: Parse $e->getMessage() correctly
