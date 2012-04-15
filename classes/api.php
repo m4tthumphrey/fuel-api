@@ -2,7 +2,7 @@
 
 namespace Api;
 
-class ApiException extends \Exception {}
+class ApiException extends \FuelException {}
 
 abstract class Api
 {
@@ -63,17 +63,20 @@ abstract class Api
 		return $this->request($path, $params, 'DELETE');
 	}
 
-	public function request($path, $params = array(), $type = 'GET')
+	public function request($path, $params = null, $type = 'GET')
 	{
 		$url = sprintf($this->api_url(), $path);
 
 		$request = \Request::forge($url, array('driver' => 'curl'), $type)
-			->set_params($params)
 			->set_options(array(
 				'SSL_VERIFYPEER' => false,
 				'SSL_VERIFYHOST' => false,
 				'CUSTOMREQUEST' => $type
 			));
+
+		if ($params) {
+			$request->set_params($params);
+		}
 
 		return $this->callback($request);
 	}
