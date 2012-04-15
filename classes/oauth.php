@@ -32,7 +32,7 @@ abstract class Api_OAuth extends Api
 			'oauth_token' => $this->token->access_token,
 		), $params);
 
-		$url = sprintf($this->api_url, $path);
+		$url = sprintf($this->api_url(), $path);
 
 		$request = \OAuth\Request::forge('resource', $type, $url, $params);
 		$request->sign($this->signature, $this->consumer, $this->token);

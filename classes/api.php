@@ -13,9 +13,9 @@ abstract class Api
 		return new $class($options);
 	}
 
-	protected $api_url = null;
-
 	abstract public function __construct($options = array());
+
+	abstract public function api_url();
 
 	public function get($path, $params = array(), $cache = null)
 	{
@@ -60,7 +60,7 @@ abstract class Api
 
 	public function request($path, $params = array(), $type = 'GET')
 	{
-		$url = sprintf($this->api_url, $path);
+		$url = sprintf($this->api_url(), $path);
 
 		$request = \Request::forge($url, array('driver' => 'curl'), $type)
 			->set_params($params)

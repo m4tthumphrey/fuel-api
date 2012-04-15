@@ -4,7 +4,10 @@ namespace Api;
 
 class Api_Foursquare extends Api_OAuth2
 {
-	protected $api_url = 'https://api.foursquare.com/v2/%s';
+	public function api_url()
+	{
+		return 'https://api.foursquare.com/v2/%s';
+	}
 
 	public function token_key()
 	{

@@ -4,7 +4,10 @@ namespace Api;
 
 class Api_Instagram extends Api_OAuth2
 {
-	protected $api_url = 'https://api.instagram.com/v1/%s';
+	public function api_url()
+	{
+		return 'https://api.instagram.com/v1/%s';
+	}
 
 	public function token_key()
 	{

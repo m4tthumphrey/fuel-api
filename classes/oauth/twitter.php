@@ -4,7 +4,10 @@ namespace Api;
 
 class Api_Twitter extends Api_OAuth
 {
-	protected $api_url = 'http://api.twitter.com/1/%s.json';
+	public function api_url()
+	{
+		return 'http://api.twitter.com/1/%s.json';
+	}
 
 	public static function twitterfy($ret)
 	{
