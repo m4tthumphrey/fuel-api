@@ -19,7 +19,8 @@ class Api_Mailchimp extends Api
 	{
 		$protocol = 'http';
 
-		if ($this->secure) {
+		if ($this->secure)
+		{
 			$protocol .= 's';
 		}
 
@@ -32,9 +33,7 @@ class Api_Mailchimp extends Api
 			'apikey' => $this->key
 		));
 
-		$path = urlencode($path);
-
-		return parent::request($path, $params, $type);
+		return parent::request(urlencode($path), $params, $type);
 	}
 
 	public function callback($request)
@@ -44,7 +43,8 @@ class Api_Mailchimp extends Api
 			$data = $request->execute();
 			$data = $data->response()->body;
 
-			if (isset($data['error'])) {
+			if (isset($data['error']))
+			{
 				throw new ApiException($data['error'], $data['code']);
 			}
 
