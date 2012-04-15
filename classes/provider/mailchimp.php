@@ -47,6 +47,8 @@ class Api_Mailchimp extends Api
 			if (isset($data['error'])) {
 				throw new ApiException($data['error'], $data['code']);
 			}
+
+			throw new ApiException('An error occurred connecting to the MailChimp servers');
 		}
 		catch (\Exception $e)
 		{
