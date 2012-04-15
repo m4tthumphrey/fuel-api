@@ -58,6 +58,11 @@ abstract class Api
 		return $this->request($path, $params, 'POST');
 	}
 
+	public function delete($path, $params = array())
+	{
+		return $this->request($path, $params, 'DELETE');
+	}
+
 	public function request($path, $params = array(), $type = 'GET')
 	{
 		$url = sprintf($this->api_url(), $path);
