@@ -21,6 +21,7 @@ The following list of providers are currently supported, feel free to fork and a
 * Tumblr
 * Twitter
 * Vimeo
+* [Twtmore](http://dev.twtmore.com/)
 
 Usage
 -----
@@ -214,6 +215,36 @@ Asana (HTTP Auth Basic)
 		try
 		{
 			$user = $asana->get('users/me');
+		}
+		catch (Api\ApiException $e)
+		{
+			$user = null;
+			logger(\Fuel::L_ERROR, $e->getMessage(), __METHOD__);
+		}
+
+		return $user;
+	}
+
+Twtmore
+-----------------------
+
+	<?php
+
+	function user_info()
+	{
+		$provider = 'twtmore';
+		if (($options = Config::load($provider)) === false) {
+			$options = Config::get($provider);
+		}
+
+		$asana = Api::forge($provider, $options);
+
+		try
+		{
+			$user = $asana->post('shorten', array(
+				"user" => "username",
+				"tweet" => "This is a long tweet..."
+			));
 		}
 		catch (Api\ApiException $e)
 		{
