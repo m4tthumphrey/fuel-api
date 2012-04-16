@@ -11,6 +11,7 @@ Autoloader::add_classes(array(
 	'Api\\Api_Dropbox'				=> __DIR__.'/classes/provider/oauth/dropbox.php',
 	'Api\\Api_Vimeo'					=> __DIR__.'/classes/provider/oauth/vimeo.php',
 	'Api\\Api_Flickr'					=> __DIR__.'/classes/provider/oauth/flickr.php',
+	'Api\\Api_Linkedin'				=> __DIR__.'/classes/provider/oauth/linkedin.php',
 	'Api\\Api_OAuth2'					=> __DIR__.'/classes/provider/oauth2.php',
 	'Api\\Api_Foursquare'			=> __DIR__.'/classes/provider/oauth2/foursquare.php',
 	'Api\\Api_Instagram'			=> __DIR__.'/classes/provider/oauth2/instagram.php',
