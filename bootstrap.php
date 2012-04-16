@@ -18,5 +18,6 @@ Autoloader::add_classes(array(
 	'Api\\Api_Facebook'				=> __DIR__.'/classes/provider/oauth2/facebook.php',
 	'Api\\Api_Github'					=> __DIR__.'/classes/provider/oauth2/github.php',
 	'Api\\Api_Mailchimp'			=> __DIR__.'/classes/provider/mailchimp.php',
+	'Api\\Api_Lastfm'					=> __DIR__.'/classes/provider/lastfm.php',
 
 ));
