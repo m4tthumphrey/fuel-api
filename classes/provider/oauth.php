@@ -25,7 +25,7 @@ abstract class Api_OAuth extends Api
 		return $this;
 	}
 
-	public function request($path, $params = array(), $type = 'GET')
+	public function build_request($path, $params = array(), $type = 'GET')
 	{
 		$params = \Arr::merge(array(
 			'oauth_consumer_key' => $this->consumer->key,
@@ -37,6 +37,6 @@ abstract class Api_OAuth extends Api
 		$request = \OAuth\Request::forge('resource', $type, $url, $params);
 		$request->sign($this->signature, $this->consumer, $this->token);
 
-		return $this->callback($request);
+		return $request;
 	}
 }

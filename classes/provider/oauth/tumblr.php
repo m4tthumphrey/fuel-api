@@ -9,15 +9,6 @@ class Api_Tumblr extends Api_OAuth
 		return 'http://api.tumblr.com/v2/%s';
 	}
 
-	public function request($path, $params = array(), $type = 'GET')
-	{
-		$params = \Arr::merge($params, array(
-			'api_key' => $this->consumer->key
-		));
-
-		return parent::request($path, $params, $type);
-	}
-
 	public function callback($request)
 	{
 		try

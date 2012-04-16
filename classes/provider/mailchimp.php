@@ -27,13 +27,13 @@ class Api_Mailchimp extends Api
 		return $protocol .= '://' . $this->dc . '.api.mailchimp.com/1.3/?method=%s';
 	}
 
-	public function request($path, $params = array(), $type = 'GET')
+	public function build_request($path, $params = array(), $type = 'GET')
 	{
 		$params = \Arr::merge($params, array(
 			'apikey' => $this->key
 		));
 
-		return parent::request(urlencode($path), $params, $type);
+		return parent::build_request(urlencode($path), $params, $type);
 	}
 
 	public function callback($request)

@@ -63,7 +63,7 @@ abstract class Api
 		return $this->request($path, $params, 'DELETE');
 	}
 
-	public function request($path, $params = null, $type = 'GET')
+	public function build_request($path, $params = null, $type = 'GET')
 	{
 		$url = sprintf($this->api_url(), $path);
 
@@ -78,6 +78,13 @@ abstract class Api
 			$request->set_params($params);
 		}
 
+		return $request;
+	}
+
+	public function request($path, $params = null, $type = 'GET')
+	{
+		$request = $this->build_request($path, $params, $type);
+		
 		return $this->callback($request);
 	}
 

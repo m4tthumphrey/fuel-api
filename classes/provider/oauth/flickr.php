@@ -9,7 +9,7 @@ class Api_Flickr extends Api_OAuth
 		return 'http://api.flickr.com/services/rest';
 	}
 
-	public function request($path, $params = array(), $type = 'GET')
+	public function build_request($path, $params = array(), $type = 'GET')
 	{
 		$params = \Arr::merge($params, array(
 			'method' => 'flickr.' . $path,
@@ -17,7 +17,7 @@ class Api_Flickr extends Api_OAuth
 			'nojsoncallback' => 1
 		));
 
-		return parent::request(null, $params, $type);
+		return parent::build_request(null, $params, $type);
 	}
 
 	public function callback($request)

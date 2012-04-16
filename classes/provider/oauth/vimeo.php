@@ -9,14 +9,14 @@ class Api_Vimeo extends Api_OAuth
 		return 'http://vimeo.com/api/rest/v2';
 	}
 
-	public function request($path, $params = array(), $type = 'GET')
+	public function build_request($path, $params = array(), $type = 'GET')
 	{
 		$params = \Arr::merge($params, array(
 			'method' => $path,
 			'format' => 'json'
 		));
 
-		return parent::request(null, $params, $type);
+		return parent::build_request(null, $params, $type);
 	}
 
 	public function callback($request)

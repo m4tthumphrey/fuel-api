@@ -20,7 +20,7 @@ class Api_Lastfm extends Api
 		return 'http://ws.audioscrobbler.com/2.0/';
 	}
 
-	public function request($path, $params = array(), $type = 'GET')
+	public function build_request($path, $params = array(), $type = 'GET')
 	{
 		$params = \Arr::merge($params, array(
 			'api_key' => $this->api_key,
@@ -31,7 +31,7 @@ class Api_Lastfm extends Api
 		$params['api_sig'] = $this->sign($params);
 		$params['format'] = 'json';
 
-		return parent::request(null, $params, $type);
+		return parent::build_request(null, $params, $type);
 	}
 
 	protected function sign($params = array())

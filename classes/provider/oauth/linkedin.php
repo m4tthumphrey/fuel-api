@@ -9,13 +9,13 @@ class Api_Linkedin extends Api_OAuth
 		return 'http://api.linkedin.com/v1/%s';
 	}
 
-	public function request($path, $params = array(), $type = 'GET')
+	public function build_request($path, $params = array(), $type = 'GET')
 	{
 		$params = \Arr::merge($params, array(
 			'format' => 'json'
 		));
 
-		return parent::request($path, $params, $type);
+		return parent::build_request($path, $params, $type);
 	}
 
 	public function callback($request)
