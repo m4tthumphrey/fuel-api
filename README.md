@@ -8,6 +8,7 @@ Providers
 
 The following list of providers are currently supported, feel free to fork and add your own too.
 
+* Asana
 * Dropbox
 * Facebook
 * Flickr
@@ -33,8 +34,12 @@ Twitter (OAuth)
 
 	function get_tweets()
 	{
-		$options = Config::get('twitter', true);
-		$twitter = Api::forge('twitter', $options);
+		$provider = 'twitter';
+		if (($options = Config::load($provider)) === false) {
+			$options = Config::get($provider);
+		}
+
+		$twitter = Api::forge($provider, $options);
 
 		try
 		{
@@ -55,8 +60,12 @@ Twitter (OAuth)
 
 	public function post_tweet()
 	{
-		$options = Config::get('twitter', true);
-		$twitter = Api::forge('twitter', $options);
+		$provider = 'twitter';
+		if (($options = Config::load($provider)) === false) {
+			$options = Config::get($provider);
+		}
+
+		$twitter = Api::forge($provider, $options);
 
 		try
 		{
@@ -80,8 +89,12 @@ Foursquare (OAuth2)
 
 	function get_trending_venues($ll = '40.7,-74')
 	{
-		$options = Config::get('foursquare', true);
-		$fs = Api::forge('foursquare', $options);
+		$provider = 'foursquare';
+		if (($options = Config::load($provider)) === false) {
+			$options = Config::get($provider);
+		}
+
+		$fs = Api::forge($provider, $options);
 
 		try
 		{
@@ -100,14 +113,18 @@ Foursquare (OAuth2)
 	}
 
 Instagram (OAuth2)
--------------------
+------------------
 
 	<?php
 
 	function get_feed()
 	{
-		$options = Config::get('instagram', true);
-		$instagram = Api::forge('instagram', $options);
+		$provider = 'instagram';
+		if (($options = Config::load($provider)) === false) {
+			$options = Config::get($provider);
+		}
+
+		$instagram = Api::forge($provider, $options);
 
 		try
 		{
@@ -123,7 +140,7 @@ Instagram (OAuth2)
 	}
 
 Facebook (OAuth2)
--------------------
+-----------------
 
 We use the [Graph API](http://developers.facebook.com/docs/reference/api/) when making requests to Facebook. Remember this is for use once authenticated and you have a valid token. Make sure you authenicate with the [necessary permissions](http://developers.facebook.com/docs/authentication/permissions/) to be able to complete the requests.
 
@@ -131,8 +148,12 @@ We use the [Graph API](http://developers.facebook.com/docs/reference/api/) when 
 
 	function update_status()
 	{
-		$options = Config::get('facebook', true);
-		$fb = Api::forge('facebook', $options);
+		$provider = 'facebook';
+		if (($options = Config::load($provider)) === false) {
+			$options = Config::get($provider);
+		}
+
+		$fb = Api::forge($provider, $options);
 
 		try
 		{
@@ -147,4 +168,58 @@ We use the [Graph API](http://developers.facebook.com/docs/reference/api/) when 
 		}
 
 		return $status_id;
+	}
+
+Last.fm
+-------
+
+	<?php
+
+	function shout()
+	{
+		$provider = 'lastfm';
+		if (($options = Config::load($provider)) === false) {
+			$options = Config::get($provider);
+		}
+
+		$lfm = Api::forge($provider, $options);
+
+		try
+		{
+			$lfm->post('user.shout', array(
+				'user' => 'm4tthumphrey',
+				'message' => 'This is a test shout from fuel-api'
+			));
+		}
+		catch (Api\ApiException $e)
+		{
+			logger(\Fuel::L_ERROR, $e->getMessage(), __METHOD__);
+		}
+	}
+
+Asana (HTTP Auth Basic)
+-----------------------
+
+	<?php
+
+	function user_info()
+	{
+		$provider = 'asana';
+		if (($options = Config::load($provider)) === false) {
+			$options = Config::get($provider);
+		}
+
+		$asana = Api::forge($provider, $options);
+
+		try
+		{
+			$user = $asana->get('users/me');
+		}
+		catch (Api\ApiException $e)
+		{
+			$user = null;
+			logger(\Fuel::L_ERROR, $e->getMessage(), __METHOD__);
+		}
+
+		return $user;
 	}
