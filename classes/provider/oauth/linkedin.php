@@ -20,19 +20,18 @@ class Api_Linkedin extends Api_OAuth
 
 	public function callback($request)
 	{
+		$message = 'An error occurred connecting to the LinkedIn servers';
+		$code = 0;
+
 		try
 		{
 			$data = $request->execute();
 			$data = json_decode($data);
-		}
-		catch (ApiException $e)
-		{
-			throw $e;
+
+			return $data;
 		}
 		catch (\RequestStatusException $e)
 		{
-			$message = 'An error occurred connecting to the LinkedIn servers';
-			$code = 0;
 			$data = json_decode($e->getMessage());
 
 			if (isset($data->message))
@@ -48,6 +47,6 @@ class Api_Linkedin extends Api_OAuth
 			throw new ApiException($e->getMessage());
 		}
 
-		return $data;
+		throw new ApiException($message, $code);
 	}
 }

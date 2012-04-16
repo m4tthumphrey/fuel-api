@@ -21,6 +21,8 @@ class Api_Vimeo extends Api_OAuth
 
 	public function callback($request)
 	{
+		$message = 'An error occurred connecting to the Vimeo servers';
+
 		try
 		{
 			$data = $request->execute();
@@ -30,6 +32,8 @@ class Api_Vimeo extends Api_OAuth
 			{
 				throw new ApiException($data->err->expl, $data->err->code);
 			}
+
+			return $data;
 		}
 		catch (ApiException $e)
 		{
@@ -40,6 +44,6 @@ class Api_Vimeo extends Api_OAuth
 			throw new ApiException($e->getMessage());
 		}
 
-		return $data;
+		throw new ApiException($message);
 	}
 }

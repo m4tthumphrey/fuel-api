@@ -11,20 +11,18 @@ class Api_Tumblr extends Api_OAuth
 
 	public function callback($request)
 	{
+		$message = 'An error occurred connecting to the Tumblr servers';
+		$code = 0;
+
 		try
 		{
 			$data = $request->execute();
 			$data = json_decode(json_encode($data))->body;
-		}
-		catch (ApiException $e)
-		{
-			throw $e;
+
+			return $data->response;
 		}
 		catch (\RequestStatusException $e)
 		{
-			$message = 'An error occurred connecting to the Tumblr servers';
-			$code = 0;
-
 			$data = json_decode($e->getMessage());
 
 			if (isset($data->meta->msg))
@@ -40,6 +38,6 @@ class Api_Tumblr extends Api_OAuth
 			throw new ApiException($e->getMessage());
 		}
 
-		return $data->response;
+		throw new ApiException($message, $code);
 	}
 }

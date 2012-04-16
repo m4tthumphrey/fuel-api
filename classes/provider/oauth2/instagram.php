@@ -16,14 +16,17 @@ class Api_Instagram extends Api_OAuth2
 
 	public function callback($request)
 	{
+		$message = 'An error occurred connecting to the Instagram servers';
+
 		try
 		{
 			$data = $request->execute();
 			$data = json_decode($data);
+
+			return $data->data;
 		}
 		catch (\RequestStatusException $e)
 		{
-			$message = 'An error occurred connecting to the Instagram servers';
 			$data = json_decode($e->getMessage());
 
 			if (isset($data->meta->error_message))
@@ -38,6 +41,6 @@ class Api_Instagram extends Api_OAuth2
 			throw new ApiException($e->getMessage());
 		}
 
-		return $data->data;
+		throw new ApiException($message);
 	}
 }

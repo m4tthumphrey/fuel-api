@@ -49,6 +49,8 @@ class Api_Lastfm extends Api
 
 	public function callback($request)
 	{
+		$message = 'An error occurred connecting to the Last.fm servers';
+
 		try
 		{
 			$data = $request->execute();
@@ -58,6 +60,8 @@ class Api_Lastfm extends Api
 			{
 				throw new ApiException($data->message, $data->error);
 			}
+
+			return $data;
 		}
 		catch (ApiException $e)
 		{
@@ -68,6 +72,6 @@ class Api_Lastfm extends Api
 			throw new ApiException($e->getMessage());
 		}
 
-		return $data;
+		throw new ApiException($message);
 	}
 }

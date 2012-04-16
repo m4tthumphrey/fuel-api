@@ -16,14 +16,17 @@ class Api_Foursquare extends Api_OAuth2
 
 	public function callback($request)
 	{
+		$message = 'An error occurred connecting to the Foursquare servers';
+
 		try
 		{
 			$data = $request->execute();
 			$data = json_decode($data);
+
+			return $data->response;
 		}
 		catch (\RequestStatusException $e)
 		{
-			$message = 'An error occurred connecting to the Foursquare servers';
 			$data = json_decode($e->getMessage());
 
 			if (isset($data->meta->errorDetail))
@@ -38,6 +41,6 @@ class Api_Foursquare extends Api_OAuth2
 			throw new ApiException($e->getMessage());
 		}
 
-		return $data->response;
+		throw new ApiException($message);
 	}
 }

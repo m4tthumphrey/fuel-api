@@ -22,6 +22,8 @@ class Api_Flickr extends Api_OAuth
 
 	public function callback($request)
 	{
+		$message = 'An error occurred connecting to the Flickr servers';
+
 		try
 		{
 			$data = $request->execute();
@@ -31,6 +33,8 @@ class Api_Flickr extends Api_OAuth
 			{
 				throw new ApiException($data->message, $data->code);
 			}
+
+			return $data;
 		}
 		catch (ApiException $e)
 		{
@@ -41,6 +45,6 @@ class Api_Flickr extends Api_OAuth
 			throw new ApiException($e->getMessage());
 		}
 
-		return $data;
+		throw new ApiException($message);
 	}
 }

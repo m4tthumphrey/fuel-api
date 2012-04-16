@@ -16,14 +16,17 @@ class Api_Github extends Api_OAuth2
 
 	public function callback($request)
 	{
+		$message = 'An error occurred connecting to the Github servers';
+
 		try
 		{
 			$data = $request->execute();
 			$data = json_decode($data);
+
+			return $data;
 		}
 		catch (\RequestStatusException $e)
 		{
-			$message = 'An error occurred connecting to the Github servers';
 			$data = json_decode($e->getMessage());
 
 			if (isset($data->message))
@@ -38,6 +41,6 @@ class Api_Github extends Api_OAuth2
 			throw new ApiException($e->getMessage());
 		}
 
-		return $data;
+		throw new ApiException($message);
 	}
 }

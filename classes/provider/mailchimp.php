@@ -38,6 +38,8 @@ class Api_Mailchimp extends Api
 
 	public function callback($request)
 	{
+		$message = 'An error occurred connecting to the MailChimp servers';
+
 		try
 		{
 			$data = $request->execute();
@@ -48,7 +50,7 @@ class Api_Mailchimp extends Api
 				throw new ApiException($data['error'], $data['code']);
 			}
 
-			throw new ApiException('An error occurred connecting to the MailChimp servers');
+			return $data;
 		}
 		catch (ApiException $e)
 		{
@@ -59,6 +61,6 @@ class Api_Mailchimp extends Api
 			throw new ApiException($e->getMessage());
 		}
 
-		return $data;
+		throw new ApiException($message);
 	}
 }
