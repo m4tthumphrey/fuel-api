@@ -41,7 +41,6 @@ class Api_Twtmore extends Api
 
             throw new ApiException($data->error);
         }
-        catch (\Exception $e) { }
 
         throw new ApiException("Failed to perform request");
     }
