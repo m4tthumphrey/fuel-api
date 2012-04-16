@@ -36,7 +36,7 @@ class Api_Twtmore extends Api
         }
         catch (\RequestStatusException $e)
         {
-            $data = $request->response();
+            $data = $e->getMessage();
             $data = json_decode($data);
 
             throw new ApiException($data->error);
