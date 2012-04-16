@@ -3,6 +3,23 @@ fuel-api
 
 This cell is designed to be used once you have already authorised and have your token. It uses the [OAuth Cell Package](https://github.com/fuel-packages/fuel-oauth) for making requests for OAuth powered APIs. You can also use it for OAuth2 based APIs. Integrated pagination is planned.
 
+Providers
+---------
+
+The following list of providers are currently supported, feel free to fork and add your own too.
+
+* Dropbox
+* Facebook
+* Flickr
+* Foursquare
+* Github
+* Instagram
+* LinkedIn
+* MailChimp
+* Tumblr
+* Twitter
+* Vimeo
+
 Usage
 -----
 
