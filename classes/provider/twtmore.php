@@ -2,7 +2,7 @@
 
 namespace Api;
 
-class Api_Lastfm extends Api
+class Api_Twtmore extends Api
 {
     protected $api_key = null;
 
@@ -13,7 +13,7 @@ class Api_Lastfm extends Api
 
     public function api_url()
     {
-        return 'http://api.twtmore.com/v3';
+        return 'http://api.twtmore.com/v4/';
     }
 
     public function build_request($path, $params = array(), $type = 'GET')
