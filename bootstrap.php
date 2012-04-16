@@ -26,5 +26,6 @@ Autoloader::add_classes(array(
 	
 	'Api\\Api_Mailchimp'				=> __DIR__.'/classes/provider/mailchimp.php',
 	'Api\\Api_Lastfm'						=> __DIR__.'/classes/provider/lastfm.php',
+	'Api\\Api_Twtmore'						=> __DIR__.'/classes/provider/twtmore.php',
 
 ));
