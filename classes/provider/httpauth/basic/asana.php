@@ -16,14 +16,17 @@ class Api_Asana extends Api_HTTP_Auth_Basic
 
 	public function callback($request)
 	{
+		$message = 'An error occurred connecting to the Asana servers';
+
 		try
 		{
 			$data = $request->execute();
 			$data = json_decode(json_encode($data->response()))->body;
+
+			return $data;
 		}
 		catch (\RequestStatusException $e)
 		{
-			$message = 'An error occurred connecting to the Asana servers';
 			$data = json_decode($e->getMessage());
 
 			if (isset($data->errors))
@@ -38,6 +41,6 @@ class Api_Asana extends Api_HTTP_Auth_Basic
 			throw new ApiException($e->getMessage());
 		}
 
-		return $data;
+		throw new ApiException($message);
 	}
 }
