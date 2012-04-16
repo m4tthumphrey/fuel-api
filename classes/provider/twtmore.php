@@ -4,44 +4,54 @@ namespace Api;
 
 class Api_Twtmore extends Api
 {
-    protected $api_key = null;
+	protected $api_key = null;
 
-    public function __construct($options = array())
-    {
-        $this->api_key = $options['api_key'];
-    }
+	public function __construct($options = array())
+	{
+		$this->api_key = $options['api_key'];
+	}
 
-    public function api_url()
-    {
-        return 'http://api.twtmore.com/v4/';
-    }
+	public function api_url()
+	{
+		return 'http://api.twtmore.com/v3/%s';
+	}
 
-    public function build_request($path, $params = array(), $type = 'GET')
-    {
-        $params = \Arr::merge($params, array(
-            'apikey' => $this->api_key,
-        ));
+	public function build_request($path, $params = array(), $type = 'GET')
+	{
+		$params = \Arr::merge($params, array(
+			'apikey' => $this->api_key,
+		));
 
-        return parent::build_request($path, $params, $type);
-    }
+		return parent::build_request($path, $params, $type);
+	}
 
-    public function callback($request)
-    {
-        try
-        {
-            $data = $request->execute();
-            $data = json_decode($data);
+	public function callback($request)
+	{
+		$message = 'An error occurred connecting to the Twtmore servers';
 
-            return $data;
-        }
-        catch (\RequestStatusException $e)
-        {
-            $data = $e->getMessage();
-            $data = json_decode($data);
+		try
+		{
+			$data = $request->execute();
+			$data = json_decode($data);
 
-            throw new ApiException($data->error);
-        }
+			return $data;
+		}
+		catch (\RequestStatusException $e)
+		{
+			$data = json_decode($e->getMessage());
 
-        throw new ApiException("Failed to perform request");
-    }
+			if (isset($data->error))
+			{
+				$message = $data->error;
+			}
+
+			throw new ApiException($message);
+		}
+		catch (\Exception $e)
+		{
+			throw new ApiException($e->getMessage());
+		}
+
+		throw new ApiException($message);
+	}
 }

@@ -68,6 +68,7 @@ abstract class Api
 		$url = sprintf($this->api_url(), $path);
 
 		$request = \Request::forge($url, array('driver' => 'curl'), $type)
+			->set_method($type)
 			->set_options(array(
 				'SSL_VERIFYPEER' => false,
 				'SSL_VERIFYHOST' => false,
@@ -84,7 +85,7 @@ abstract class Api
 	public function request($path, $params = null, $type = 'GET')
 	{
 		$request = $this->build_request($path, $params, $type);
-		
+
 		return $this->callback($request);
 	}
 

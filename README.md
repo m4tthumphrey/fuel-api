@@ -230,27 +230,26 @@ Twtmore
 
 	<?php
 
-	function user_info()
+	function get_tweet()
 	{
 		$provider = 'twtmore';
 		if (($options = Config::load($provider)) === false) {
 			$options = Config::get($provider);
 		}
 
-		$asana = Api::forge($provider, $options);
+		$twtmore = Api::forge($provider, $options);
 
 		try
 		{
-			$user = $asana->post('shorten', array(
-				"user" => "username",
-				"tweet" => "This is a long tweet..."
+			$tweet = $twtmore->post('tweet', array(
+				'id' => 'A'
 			));
 		}
 		catch (Api\ApiException $e)
 		{
-			$user = null;
+			$tweet = null;
 			logger(\Fuel::L_ERROR, $e->getMessage(), __METHOD__);
 		}
 
-		return $user;
+		return $tweet;
 	}
