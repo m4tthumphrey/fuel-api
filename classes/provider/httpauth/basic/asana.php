@@ -11,7 +11,7 @@ class Api_Asana extends Api_HTTP_Auth_Basic
 
 	public function api_url()
 	{
-		return 'https://app.asana.com/-/api/0.1/%s';
+		return 'https://app.asana.com/api/1.0/%s';
 	}
 
 	public function callback($request)
