@@ -23,9 +23,10 @@ Autoloader::add_classes(array(
 	'Api\\Api_HTTP_Auth'				=> __DIR__.'/classes/provider/httpauth.php',
 	'Api\\Api_HTTP_Auth_Basic'	=> __DIR__.'/classes/provider/httpauth/basic.php',
 	'Api\\Api_Asana'						=> __DIR__.'/classes/provider/httpauth/basic/asana.php',
-	
+
 	'Api\\Api_Mailchimp'				=> __DIR__.'/classes/provider/mailchimp.php',
 	'Api\\Api_Lastfm'						=> __DIR__.'/classes/provider/lastfm.php',
-	'Api\\Api_Twtmore'						=> __DIR__.'/classes/provider/twtmore.php',
+	'Api\\Api_Postmark'					=> __DIR__.'/classes/provider/postmark.php',
+	'Api\\Api_Twtmore'					=> __DIR__.'/classes/provider/twtmore.php',
 
 ));

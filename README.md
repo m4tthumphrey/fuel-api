@@ -18,10 +18,11 @@ The following list of providers are currently supported, feel free to fork and a
 * Last.fm
 * LinkedIn
 * MailChimp
+* Postmark
 * Tumblr
 * Twitter
-* Vimeo
 * [Twtmore](http://dev.twtmore.com/)
+* Vimeo
 
 Usage
 -----
@@ -225,8 +226,40 @@ Asana (HTTP Auth Basic)
 		return $user;
 	}
 
+Postmark
+--------
+
+	<?php
+
+	function send_email()
+	{
+		$provider = 'postmark';
+		if (($options = Config::load($provider)) === false) {
+			$options = Config::get($provider);
+		}
+
+		$postmark = Api::forge($provider, $options);
+
+		try
+		{
+			$message = $postmark->post('send', array(
+				'To' => 'user@example.com',
+				'From' => 'send@example.com',
+				'Subject' => 'Hi there!',
+				'TextBody' => 'Hi!'
+			));
+		}
+		catch (Api\ApiException $e)
+		{
+			$message = null;
+			logger(\Fuel::L_ERROR, $e->getMessage(), __METHOD__);
+		}
+
+		return $message;
+	}
+
 Twtmore
------------------------
+-------
 
 	<?php
 
