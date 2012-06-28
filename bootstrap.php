@@ -24,6 +24,7 @@ Autoloader::add_classes(array(
 	'Api\\Api_HTTP_Auth_Basic'	=> __DIR__.'/classes/provider/httpauth/basic.php',
 	'Api\\Api_Asana'						=> __DIR__.'/classes/provider/httpauth/basic/asana.php',
 
+	'Api\\Api_Googlemaps'				=> __DIR__.'/classes/provider/googlemaps.php',
 	'Api\\Api_Mailchimp'				=> __DIR__.'/classes/provider/mailchimp.php',
 	'Api\\Api_Lastfm'						=> __DIR__.'/classes/provider/lastfm.php',
 	'Api\\Api_Postmark'					=> __DIR__.'/classes/provider/postmark.php',
