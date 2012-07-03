@@ -46,8 +46,11 @@ abstract class Api
 		catch (\CacheNotFoundException $e)
 		{
 			$data = $this->request($path, $params, 'GET');
-
-			\Cache::set($hash, $data, $cache_value);
+			
+			if ($cache !== false)
+			{
+				\Cache::set($hash, $data, $cache_value);
+			}
 		}
 
 		return $data;
